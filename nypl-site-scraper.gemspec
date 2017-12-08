@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "nypl-site-scraper"
   spec.version       = NyplSiteScraper::VERSION
   spec.authors       = ["nodanaonlyzuul"]
-
+  spec.licenses      = ['MIT']
   spec.summary       = %q{A mechanize-driven client to scrape info about your account from NYPL}
   # spec.description   = %q{TODO: Write a longer description or delete this line.}
   spec.homepage      = "http://github.com/nodanaonlyzuul/nypl-site-scraper"
