@@ -20,6 +20,21 @@ module NyplSiteScraper
       true
     end
 
+    def get_fines
+      @fines_page ||= @agent.get("https://catalog.nypl.org/patroninfo~S1/thisurlsegment-doesnt-seem-to-matter-hahahah/overdues")
+      fines_rows = @fines_page.search('tr.patFuncFinesEntryTitle')
+
+      fines_response = []
+      fines_rows.each_with_index do |overdue_row, index|
+        fines_response << {
+          title: overdue_row.text.strip,
+          fineAmount: @fines_page.search('td.patFuncFinesDetailAmt')[index].text.strip
+        }
+      end
+
+      {fines: fines_response}
+    end
+
     def get_holds
       @holds_page ||= @homepage.link_with(text: "My Holds").click
       holds_rows = @holds_page.css('tr.patFuncEntry')
@@ -35,8 +50,10 @@ module NyplSiteScraper
           pickupLocation: get_pickup_location(hold_row),
        }
      end
+
      {holds: response_holds}
    end
+
    private
 
    def map_status_string(status_string)

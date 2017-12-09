@@ -10,7 +10,7 @@ using mechanize directly.
 Examples of what it can get are your:
 
 * Current Holds
-* Fines (not implemented yet)
+* Fines
 * Current Checkouts (not implemented yet)
 
 ## Installation
@@ -38,6 +38,9 @@ client.login! # This is the network call
 
 client.get_holds
  # {"holds"=>[{"title"=>"Persepolis. English", "statusString"=>"READY FOR PICKUP", "status"=>"ready", "pickupLocation"=>"Mid-Manhattan Library at 42nd St"}...
+
+ client.get_fines
+ #{:fines=>[{:title=>"Zog and the flying doctors / by Julia Donaldson & illustrated by Axel Scheffler.", :fineAmount=>"$0.20"}...
 ```
 
 ## Development
