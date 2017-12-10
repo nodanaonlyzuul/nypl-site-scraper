@@ -20,6 +20,21 @@ module NyplSiteScraper
       true
     end
 
+    def get_checkouts
+      @check_outs_page ||= @homepage.link_with(text: "My Checked Out Items").click
+      check_cout_rows =  @check_outs_page.search('tr.patFuncEntry')
+
+      check_outs_response = []
+      check_cout_rows.each do |check_out_row|
+        check_outs_response << {
+          title:   check_out_row.search('td.patFuncTitle').text.strip,
+          dueDate: check_out_row.search('td.patFuncStatus').text.strip
+        }
+      end
+
+      {checkouts: check_outs_response}
+    end
+
     def get_fines
       @fines_page ||= @agent.get("https://catalog.nypl.org/patroninfo~S1/thisurlsegment-doesnt-seem-to-matter-hahahah/overdues")
       fines_rows = @fines_page.search('tr.patFuncFinesEntryTitle')
@@ -54,31 +69,30 @@ module NyplSiteScraper
      {holds: response_holds}
    end
 
-   private
+private
 
-   def map_status_string(status_string)
+    def map_status_string(status_string)
 
-  if status_string == "READY FOR PICKUP"
-    return "ready"
-  elsif status_string == "IN TRANSIT"
-    return "in transit"
-  elsif status_string.include?('of')
-    return "pending"
-  else
-    return status_string
-  end
-end
+     if status_string == "READY FOR PICKUP"
+       return "ready"
+     elsif status_string == "IN TRANSIT"
+       return "in transit"
+     elsif status_string.include?('of')
+       return "pending"
+     else
+       return status_string
+     end
+    end
 
-# Helper because markup for pending vs ready is different
-def get_pickup_location(row)
-  pickUpCell = row.css('td.patFuncPickup')
-  if pickUpCell.search('div.patFuncPickupLabel').length > 0
-    row.css('td.patFuncPickup option[selected=selected]').first.text.strip
-    # pickUpCell.search('div.patFuncPickupLabel').text.strip
-  else
-    pickUpCell.text.strip
-  end
-end
+    # Helper because markup for pending vs ready is different
+    def get_pickup_location(row)
+      pickUpCell = row.css('td.patFuncPickup')
+      if pickUpCell.search('div.patFuncPickupLabel').length > 0
+        row.css('td.patFuncPickup option[selected=selected]').first.text.strip
+      else
+        pickUpCell.text.strip
+      end
+    end
 
   end
 
