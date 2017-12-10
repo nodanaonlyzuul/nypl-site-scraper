@@ -20,6 +20,21 @@ module NyplSiteScraper
       true
     end
 
+    def get_checkouts
+      @check_outs_page ||= @homepage.link_with(text: "My Checked Out Items").click
+      check_cout_rows =  @check_outs_page.search('tr.patFuncEntry')
+
+      check_outs_response = []
+      check_cout_rows.each do |check_out_row|
+        check_outs_response << {
+          title:   check_out_row.search('td.patFuncTitle').text.strip,
+          dueDate: check_out_row.search('td.patFuncStatus').text.strip
+        }
+      end
+
+      {checkouts: check_outs_response}
+    end
+
     def get_fines
       @fines_page ||= @agent.get("https://catalog.nypl.org/patroninfo~S1/thisurlsegment-doesnt-seem-to-matter-hahahah/overdues")
       fines_rows = @fines_page.search('tr.patFuncFinesEntryTitle')
