@@ -69,31 +69,30 @@ module NyplSiteScraper
      {holds: response_holds}
    end
 
-   private
+private
 
-   def map_status_string(status_string)
+    def map_status_string(status_string)
 
-  if status_string == "READY FOR PICKUP"
-    return "ready"
-  elsif status_string == "IN TRANSIT"
-    return "in transit"
-  elsif status_string.include?('of')
-    return "pending"
-  else
-    return status_string
-  end
-end
+     if status_string == "READY FOR PICKUP"
+       return "ready"
+     elsif status_string == "IN TRANSIT"
+       return "in transit"
+     elsif status_string.include?('of')
+       return "pending"
+     else
+       return status_string
+     end
+    end
 
-# Helper because markup for pending vs ready is different
-def get_pickup_location(row)
-  pickUpCell = row.css('td.patFuncPickup')
-  if pickUpCell.search('div.patFuncPickupLabel').length > 0
-    row.css('td.patFuncPickup option[selected=selected]').first.text.strip
-    # pickUpCell.search('div.patFuncPickupLabel').text.strip
-  else
-    pickUpCell.text.strip
-  end
-end
+    # Helper because markup for pending vs ready is different
+    def get_pickup_location(row)
+      pickUpCell = row.css('td.patFuncPickup')
+      if pickUpCell.search('div.patFuncPickupLabel').length > 0
+        row.css('td.patFuncPickup option[selected=selected]').first.text.strip
+      else
+        pickUpCell.text.strip
+      end
+    end
 
   end
 
