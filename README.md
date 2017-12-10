@@ -37,10 +37,13 @@ client = NyplSiteScraper::Client.new(barcode: '11111111111111', pin: '2222')
 client.login! # This is the network call
 
 client.get_holds
- # {"holds"=>[{"title"=>"Persepolis. English", "statusString"=>"READY FOR PICKUP", "status"=>"ready", "pickupLocation"=>"Mid-Manhattan Library at 42nd St"}...
+# {"holds"=>[{"title"=>"Persepolis. English", "statusString"=>"READY FOR PICKUP", "status"=>"ready", "pickupLocation"=>"Mid-Manhattan Library at 42nd St"}...
 
- client.get_fines
- #{:fines=>[{:title=>"Zog and the flying doctors / by Julia Donaldson & illustrated by Axel Scheffler.", :fineAmount=>"$0.20"}...
+client.get_fines
+#{:fines=>[{:title=>"Zog and the flying doctors / by Julia Donaldson & illustrated by Axel Scheffler.", :fineAmount=>"$0.20"}...
+
+client.get_checkouts
+# {:checkouts => [{:title "Foo", dueDate: "Some date"}]}
 ```
 
 ## Development
