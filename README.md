@@ -1,6 +1,6 @@
 # NYPL Site Scraper
 
-A (mechanize)[https://github.com/sparklemotion/mechanize] driven library for
+A [mechanize](https://github.com/sparklemotion/mechanize) driven library for
 getting information about your NYPL account by web scraping.
 
 This library is an abstraction to get info from your account.
